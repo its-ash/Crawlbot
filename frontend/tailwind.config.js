@@ -1,0 +1,39 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: '#e0e5ec',
+        foreground: '#f0f2f5',
+        muted: '#d1d9e6',
+        'text-primary': '#2d3436',
+        'text-muted': '#4a5568',
+        accent: '#ff4757',
+        'accent-foreground': '#ffffff',
+        'border-shadow': '#babecc',
+        'border-light': '#ffffff',
+        'border-dark': '#a3b1c6',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Roboto Mono', 'monospace'],
+      },
+      boxShadow: {
+        'card': '8px 8px 16px #babecc, -8px -8px 16px #ffffff',
+        'floating': '12px 12px 24px #babecc, -12px -12px 24px #ffffff, inset 1px 1px 0 rgba(255,255,255,0.5)',
+        'pressed': 'inset 6px 6px 12px #babecc, inset -6px -6px 12px #ffffff',
+        'recessed': 'inset 4px 4px 8px #babecc, inset -4px -4px 8px #ffffff',
+        'glow-red': '0 0 10px 2px rgba(255, 71, 87, 0.6)',
+        'glow-green': '0 0 10px 2px rgba(34, 197, 94, 0.6)',
+      },
+      dropShadow: {
+        'embossed': '0 1px 0 #ffffff',
+      },
+    },
+  },
+  plugins: [],
+}
