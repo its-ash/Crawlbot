@@ -48,7 +48,7 @@
         </div>
         <div class="bg-muted rounded p-2 shadow-recessed">
           <div class="text-xs font-mono uppercase tracking-wide text-text-muted mb-1">Results</div>
-          <div class="text-sm font-bold font-mono">{{ agent.total_sites }}</div>
+          <div class="text-sm font-bold font-mono">{{ agent.results_count || 0 }}</div>
         </div>
       </div>
     </div>
@@ -72,7 +72,7 @@
       </button>
 
       <button 
-        @click.stop="$emit('view', agent)"
+        @click.stop="viewResults"
         class="flex-1 btn-primary text-sm py-2 px-4 flex items-center justify-center gap-2"
       >
         <Eye :size="16" :stroke-width="2" />
@@ -91,7 +91,10 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { Play, Pause, Eye, Trash2 } from 'lucide-vue-next'
+
+const router = useRouter()
 
 const props = defineProps({
   agent: {
@@ -100,7 +103,11 @@ const props = defineProps({
   }
 })
 
-defineEmits(['start', 'stop', 'delete', 'view'])
+defineEmits(['start', 'stop', 'delete'])
+
+const viewResults = () => {
+  router.push(`/agent/${props.agent.id}/results`)
+}
 
 const progressPercent = computed(() => {
   if (props.agent.total_sites === 0) return 0

@@ -14,10 +14,10 @@
   --border-light: #ffffff;
   --border-dark: #a3b1c6;
   
-  --shadow-card: 8px 8px 16px #babecc, -8px -8px 16px #ffffff;
-  --shadow-floating: 12px 12px 24px #babecc, -12px -12px 24px #ffffff;
-  --shadow-pressed: inset 6px 6px 12px #babecc, inset -6px -6px 12px #ffffff;
-  --shadow-recessed: inset 4px 4px 8px #babecc, inset -4px -4px 8px #ffffff;
+  --shadow-card: 0px 0px 2px gray;
+  --shadow-floating:  0px 0px 2px gray;
+  --shadow-pressed:  0px 0px 2px gray;
+  --shadow-recessed: 0px 0px 2px gray;
 }
 
 body {

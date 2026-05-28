@@ -79,15 +79,53 @@ ollama pull llama3
 
 ## Running the Application
 
-### Start Backend
+### Option 1: Quick Start Scripts
 
+**Linux/macOS:**
+```bash
+./start.sh
+```
+
+**Windows:**
+```cmd
+start.bat
+```
+
+### Option 2: PM2 Process Manager (Recommended for Production)
+
+```bash
+# Install PM2 globally
+npm install -g pm2
+
+# Start all services with PM2
+./pm2-start.sh
+
+# Or manually
+pm2 start ecosystem.config.js
+
+# Monitor services
+pm2 monit
+
+# View logs
+pm2 logs
+
+# Stop services
+./pm2-stop.sh
+# Or manually
+pm2 stop all
+```
+
+See [PM2_GUIDE.md](PM2_GUIDE.md) for complete PM2 documentation.
+
+### Option 3: Manual Start
+
+**Start Backend:**
 ```bash
 # From project root
 uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### Start Frontend
-
+**Start Frontend:**
 ```bash
 # In another terminal
 cd frontend
@@ -95,6 +133,32 @@ npm run dev
 ```
 
 Visit `http://localhost:5173` in your browser.
+
+## Production Deployment
+
+For production deployment to **https://crawler.ash-api.online**:
+
+```bash
+# Quick deployment (recommended)
+sudo ./deploy.sh
+
+# Manual deployment
+# See DEPLOYMENT.md for detailed instructions
+```
+
+The deployment script will:
+- ✅ Configure Nginx reverse proxy
+- ✅ Obtain SSL certificate from Let's Encrypt
+- ✅ Build and deploy frontend
+- ✅ Start backend with PM2
+- ✅ Setup auto-start on boot
+
+**Requirements:**
+- Ubuntu/Debian server
+- Domain DNS pointing to server
+- Root/sudo access
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide.
 
 ## Usage
 

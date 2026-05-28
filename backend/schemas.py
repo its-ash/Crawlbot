@@ -18,6 +18,7 @@ class AgentResponse(BaseModel):
     updated_at: datetime
     progress: int
     total_sites: int
+    results_count: int = 0
     
     class Config:
         from_attributes = True
@@ -41,3 +42,10 @@ class ResultResponse(BaseModel):
 
 class ExportFormat(BaseModel):
     format: str = "json"
+
+class LoginRequest(BaseModel):
+    token: str
+
+class LoginResponse(BaseModel):
+    success: bool
+    message: str

@@ -31,3 +31,26 @@ venv.bak/
 node_modules/
 .DS_Store
 playwright/.cache/
+
+# PM2 logs and runtime
+logs/
+.pm2/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Frontend build
+frontend/dist/
+frontend/.vite/
+
+# Nginx
+/etc/nginx/sites-available/crawlbot
+/etc/nginx/sites-enabled/crawlbot
+
+# Let's Encrypt
+/etc/letsencrypt/
+
+# Backups
+backups/

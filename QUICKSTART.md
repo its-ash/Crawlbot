@@ -6,7 +6,23 @@
 - [ ] Node.js 18+ installed
 - [ ] Ollama installed (optional but recommended for LLM features)
 
-## 1. Install Ollama (Recommended)
+## 1. Configure Authentication
+
+**Important**: Set up your login token before starting the application.
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit `.env` and set your secure login token:
+   ```
+   LOGIN_TOKEN=your_secure_token_here
+   ```
+
+**Default token**: `crawlbot2026` (change this in production!)
+
+## 2. Install Ollama (Recommended)
 
 ```bash
 # macOS/Linux
@@ -16,7 +32,7 @@ curl -fsSL https://ollama.ai/install.sh | sh
 ollama pull llama3
 ```
 
-## 2. Configure Environment (Optional)
+## 3. Configure Environment (Optional)
 
 If you want to use Google Search API:
 
@@ -30,7 +46,7 @@ If you want to use Google Search API:
 
 **Note**: DuckDuckGo works out of the box with no API key required!
 
-## 3. Quick Start
+## 4. Quick Start
 
 ### Option A: Using Start Script (Easiest)
 
@@ -67,13 +83,15 @@ npm install
 npm run dev
 ```
 
-## 4. Access the Application
+## 5. Access the Application
 
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:8000
 - **API Docs**: http://localhost:8000/docs
 
-## 5. Create Your First Agent
+**Login**: Use the token you set in `.env` file (default: `crawlbot2026`)
+
+## 6. Create Your First Agent
 
 1. Click "Create New Agent"
 2. Enter:

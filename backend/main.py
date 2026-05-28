@@ -8,15 +8,24 @@ import io
 import json
 
 from backend.database import get_db, init_db, Agent, Result, AgentStatus
-from backend.schemas import AgentCreate, AgentResponse, ResultResponse
+from backend.schemas import AgentCreate, AgentResponse, ResultResponse, LoginRequest, LoginResponse
 from backend.worker import WorkerPool
 from backend.websocket import WebSocketManager
+from backend.config import settings
 
 app = FastAPI(title="CrawlBot API")
 
+# Configure CORS - allow both localhost and production domain
+allowed_origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://crawler.ash-api.online",
+    "http://crawler.ash-api.online"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -32,6 +41,13 @@ async def startup_event():
 @app.get("/")
 async def root():
     return {"message": "CrawlBot API is running"}
+
+@app.post("/api/auth/login", response_model=LoginResponse)
+async def login(login_data: LoginRequest):
+    if login_data.token == settings.login_token:
+        return LoginResponse(success=True, message="Login successful")
+    else:
+        raise HTTPException(status_code=401, detail="Invalid token")
 
 @app.post("/api/agents", response_model=AgentResponse)
 async def create_agent(agent_data: AgentCreate, db: Session = Depends(get_db)):
@@ -49,14 +65,43 @@ async def create_agent(agent_data: AgentCreate, db: Session = Depends(get_db)):
 @app.get("/api/agents", response_model=List[AgentResponse])
 async def get_agents(db: Session = Depends(get_db)):
     agents = db.query(Agent).order_by(Agent.created_at.desc()).all()
-    return agents
+    # Add results_count to each agent
+    agent_list = []
+    for agent in agents:
+        agent_dict = {
+            "id": agent.id,
+            "name": agent.name,
+            "keywords": agent.keywords,
+            "search_engine": agent.search_engine,
+            "status": agent.status,
+            "created_at": agent.created_at,
+            "updated_at": agent.updated_at,
+            "progress": agent.progress,
+            "total_sites": agent.total_sites,
+            "results_count": db.query(Result).filter(Result.agent_id == agent.id).count()
+        }
+        agent_list.append(agent_dict)
+    return agent_list
 
 @app.get("/api/agents/{agent_id}", response_model=AgentResponse)
 async def get_agent(agent_id: int, db: Session = Depends(get_db)):
     agent = db.query(Agent).filter(Agent.id == agent_id).first()
     if not agent:
         raise HTTPException(status_code=404, detail="Agent not found")
-    return agent
+    # Add results_count
+    agent_dict = {
+        "id": agent.id,
+        "name": agent.name,
+        "keywords": agent.keywords,
+        "search_engine": agent.search_engine,
+        "status": agent.status,
+        "created_at": agent.created_at,
+        "updated_at": agent.updated_at,
+        "progress": agent.progress,
+        "total_sites": agent.total_sites,
+        "results_count": db.query(Result).filter(Result.agent_id == agent.id).count()
+    }
+    return agent_dict
 
 @app.delete("/api/agents/{agent_id}")
 async def delete_agent(agent_id: int, db: Session = Depends(get_db)):

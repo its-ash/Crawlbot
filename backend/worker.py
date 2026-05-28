@@ -75,11 +75,15 @@ class AgentWorker:
                     agent.progress = idx + 1
                     self.db.commit()
                     
+                    # Get current results count
+                    results_count = self.db.query(Result).filter(Result.agent_id == self.agent_id).count()
+                    
                     await self.websocket_manager.broadcast({
                         "type": "progress_update",
                         "agent_id": self.agent_id,
                         "progress": agent.progress,
-                        "total": agent.total_sites
+                        "total": agent.total_sites,
+                        "results_count": results_count
                     })
             
             agent.status = AgentStatus.COMPLETED

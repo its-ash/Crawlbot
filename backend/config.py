@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./crawlbot.db"
     max_concurrent_agents: int = 10
     results_per_search: int = 10
+    proxy_url: Optional[str] = None  # Format: http://user:pass@host:port or socks5://host:port
+    login_token: str = "crawlbot2026"  # Default token, change in .env
     
     class Config:
         env_file = ".env"
